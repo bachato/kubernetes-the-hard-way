@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: tgymnich/fork-sync@v2.0
+      - uses: kelseyhightower/kubernetes-the-hard-way@v2.0
         with:
           token: ${{ secrets.PAT }}
           owner: bachato
