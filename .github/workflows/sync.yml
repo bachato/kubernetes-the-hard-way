@@ -1,0 +1,31 @@
+name: Sync Fork with Upstream
+
+on:
+  schedule:
+    # Runs every day at midnight (adjust as needed)
+    - cron: "0 0 * * *"
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Fork Repository
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ github.repository }}
+          token: ${{ secrets.PAT }}
+
+      - name: Add Upstream Repository
+        run: git remote add upstream https://github.com/kelseyhightower/kubernetes-the-hard-way.git
+
+      - name: Fetch Upstream Changes
+        run: git fetch upstream
+
+      - name: Merge Upstream Branch
+        run: git merge upstream/master --no-edit
+
+      - name: Push Changes to Fork
+        run: git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
